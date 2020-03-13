@@ -6,32 +6,24 @@ export class AppComponent {
   width = 400;
   height = 200;
 
-  canvas: ElementRef<HTMLCanvasElement>;
+  canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private snake: Snake;
   private food: Food;
 
-  constructor(private ngZone: NgZone) {
-  }
-
-  ngOnInit(): void {
-    this.context = this.canvas.nativeElement.getContext('2d');
+  constructor() {
+    this.context = (<HTMLCanvasElement> document.getElementById('canvas')).getContext('2d');
     this.snake = new Snake(this.context, this.height, this.width);
     this.food = new Food(this.context, this.height, this.width);
 
-    this.ngZone.runOutsideAngular(
-      () => requestAnimationFrame(this.animate.bind(this))
-    );
+    requestAnimationFrame(this.animate.bind(this));
   }
 
   animate() {
     this.redraw();
-    this.ngZone.runOutsideAngular(
-      () => requestAnimationFrame(this.animate.bind(this))
-    );
+    requestAnimationFrame(this.animate.bind(this));
   }
 
-  @HostListener('document:keydown', ['$event'])
   move($event: KeyboardEvent) {
     this.snake.draw($event.key, this.food);
   }

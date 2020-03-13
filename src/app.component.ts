@@ -6,12 +6,14 @@ export class AppComponent {
   width = 400;
   height = 200;
 
-  canvas: HTMLCanvasElement;
+  private canvas: HTMLCanvasElement;
+  private scoreBoard: HTMLHeadingElement;
   private context: CanvasRenderingContext2D;
   private snake: Snake;
   private food: Food;
 
   constructor() {
+    this.scoreBoard = <HTMLHeadingElement>document.getElementById('score');
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.context = this.canvas.getContext('2d');
 
@@ -34,6 +36,7 @@ export class AppComponent {
     this.context.clearRect(0, 0, this.width, this.height);
     this.food.draw();
     this.snake.draw(null, this.food);
+    this.scoreBoard.innerText = "Score: " + this.score().toString() + ", Speed: " + this.speed().toString();
   }
 
   score() {

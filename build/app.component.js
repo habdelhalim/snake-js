@@ -5,6 +5,7 @@ export class AppComponent {
         this.title = 'snake';
         this.width = 400;
         this.height = 200;
+        this.scoreBoard = document.getElementById('score');
         this.canvas = document.getElementById('canvas');
         this.context = this.canvas.getContext('2d');
         this.snake = new Snake(this.context, this.height, this.width);
@@ -22,6 +23,7 @@ export class AppComponent {
         this.context.clearRect(0, 0, this.width, this.height);
         this.food.draw();
         this.snake.draw(null, this.food);
+        this.scoreBoard.innerText = "Score: " + this.score().toString() + ", Speed: " + this.speed().toString();
     }
     score() {
         return this.snake.length();

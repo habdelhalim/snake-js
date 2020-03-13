@@ -1,5 +1,5 @@
-import {Snake} from './model/snake';
-import {Food} from './model/food';
+import {Snake} from './model/snake.js';
+import {Food} from './model/food.js';
 
 export class AppComponent {
   title = 'snake';
@@ -16,12 +16,12 @@ export class AppComponent {
     this.snake = new Snake(this.context, this.height, this.width);
     this.food = new Food(this.context, this.height, this.width);
 
-    requestAnimationFrame(this.animate.bind(this));
+    window.requestAnimationFrame(this.animate.bind(this));
   }
 
   animate() {
     this.redraw();
-    requestAnimationFrame(this.animate.bind(this));
+    window.requestAnimationFrame(this.animate.bind(this));
   }
 
   move($event: KeyboardEvent) {

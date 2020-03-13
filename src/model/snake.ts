@@ -1,5 +1,5 @@
-import {Food} from './food';
-import {Point} from './point';
+import {Food} from './food.js';
+import {Point} from './point.js';
 
 export class Snake {
   private translations = {

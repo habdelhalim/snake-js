@@ -1,11 +1,13 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
-        "module": "system",
+        "module": "esnext",
+        "target": "es2015",
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
         "allowJs": true,
-        "outDir": "./build"
+        "outDir": "./build/"
     },
     "lib": [
         "es2018",

@@ -1,5 +1,5 @@
-import {Snake} from './model/snake.js';
-import {Food} from './model/food.js';
+import { Food } from './model/food.js';
+import { Snake } from './model/snake.js';
 
 export class AppComponent {
   title = 'snake';
@@ -12,7 +12,9 @@ export class AppComponent {
   private food: Food;
 
   constructor() {
-    this.context = (<HTMLCanvasElement> document.getElementById('canvas')).getContext('2d');
+    this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    this.context = this.canvas.getContext('2d');
+
     this.snake = new Snake(this.context, this.height, this.width);
     this.food = new Food(this.context, this.height, this.width);
 
@@ -24,7 +26,7 @@ export class AppComponent {
     window.requestAnimationFrame(this.animate.bind(this));
   }
 
-  move($event: KeyboardEvent) {
+  move($event) {
     this.snake.draw($event.key, this.food);
   }
 

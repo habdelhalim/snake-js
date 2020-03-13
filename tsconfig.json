@@ -1,7 +1,8 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "esnext",
+        "watch": true,
+        "module": "es2015",
         "target": "es2015",
         "removeComments": true,
         "preserveConstEnums": true,

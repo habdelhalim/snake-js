@@ -1,11 +1,12 @@
-import { Snake } from './model/snake.js';
 import { Food } from './model/food.js';
+import { Snake } from './model/snake.js';
 export class AppComponent {
     constructor() {
         this.title = 'snake';
         this.width = 400;
         this.height = 200;
-        this.context = document.getElementById('canvas').getContext('2d');
+        this.canvas = document.getElementById('canvas');
+        this.context = this.canvas.getContext('2d');
         this.snake = new Snake(this.context, this.height, this.width);
         this.food = new Food(this.context, this.height, this.width);
         window.requestAnimationFrame(this.animate.bind(this));

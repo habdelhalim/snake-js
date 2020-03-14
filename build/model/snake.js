@@ -13,9 +13,7 @@ export class Snake {
         };
         this.stack = [];
         this.body = [];
-        this.currentSpeed = 1;
         this.initialLength = 5;
-        this.updateSpeedOn = 10;
         const origin = new Point(0, 0);
         const key = 'ArrowRight';
         for (let i = 0; i < this.initialLength; i++) {
@@ -32,12 +30,6 @@ export class Snake {
         if (this.body[0].overlapsWith(food)) {
             this.addNode();
             food.renew();
-            this.updateSpeed();
-        }
-    }
-    updateSpeed() {
-        if (this.length() % this.updateSpeedOn === 0) {
-            this.currentSpeed++;
         }
     }
     addOperation(key) {
@@ -94,9 +86,6 @@ export class Snake {
     }
     length() {
         return this.body.length;
-    }
-    speed() {
-        return this.currentSpeed;
     }
 }
 //# sourceMappingURL=snake.js.map

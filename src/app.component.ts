@@ -11,9 +11,8 @@ export class AppComponent {
     private readonly context: CanvasRenderingContext2D;
     private snake: Snake;
     private readonly food: Food;
-    private start = Date.now();
     private fps = 0;
-    private prev = 0;
+    private prev = Date.now();
 
     constructor() {
         this.scoreBoard = <HTMLHeadingElement>document.getElementById('score');
@@ -25,20 +24,21 @@ export class AppComponent {
         this.snake = new Snake(this.context, this.height, this.width, 10);
         this.food = new Food(this.context, this.height, this.width, 10);
 
+        document.addEventListener('keydown', ($event) => this.move($event));
         window.requestAnimationFrame(this.render.bind(this));
     }
 
     render() {
-        const diff = Math.floor((Date.now() - this.start) / 1000);
-        if (diff - this.prev > 0) {
-            this.prev = diff;
+        let now = Date.now();
+        const diff = Math.floor((now - this.prev) / 1000);
+        if (diff > 0) {
+            this.prev = now;
             this.fps = 0;
         }
 
-        if (this.fps % 8 === 0) {
+        if (this.fps % (10 - this.speed()) === 0) {
             this.redraw();
         }
-
         this.fps++;
         window.requestAnimationFrame(this.render.bind(this));
     }
@@ -59,6 +59,6 @@ export class AppComponent {
     }
 
     speed() {
-        return this.snake.speed();
+        return Math.floor(this.snake.length() / 10);
     }
 }

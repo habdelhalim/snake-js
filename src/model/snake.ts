@@ -11,9 +11,7 @@ export class Snake {
 
     private stack: string[] = [];
     private body: Point[] = [];
-    private currentSpeed = 1;
     private initialLength = 5;
-    private updateSpeedOn = 10;
 
     constructor(private ctx: CanvasRenderingContext2D, private canvasHeight: number, private canvasWidth: number, private nodeSize) {
         const origin = new Point(0, 0);
@@ -36,13 +34,6 @@ export class Snake {
         if (this.body[0].overlapsWith(food)) {
             this.addNode();
             food.renew();
-            this.updateSpeed();
-        }
-    }
-
-    private updateSpeed() {
-        if (this.length() % this.updateSpeedOn === 0) {
-            this.currentSpeed++;
         }
     }
 
@@ -80,7 +71,6 @@ export class Snake {
         }
     }
 
-
     private addNode() {
         const last = this.body[this.body.length - 1];
         const lastOp = this.stack[this.stack.length - 1];
@@ -109,9 +99,5 @@ export class Snake {
 
     length() {
         return this.body.length;
-    }
-
-    speed() {
-        return this.currentSpeed;
     }
 }

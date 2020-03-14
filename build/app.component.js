@@ -5,9 +5,8 @@ export class AppComponent {
         this.title = 'snake';
         this.width = 400;
         this.height = 400;
-        this.start = Date.now();
         this.fps = 0;
-        this.prev = 0;
+        this.prev = Date.now();
         this.scoreBoard = document.getElementById('score');
         this.canvas = document.getElementById('canvas');
         this.canvas.height = this.height;
@@ -15,15 +14,17 @@ export class AppComponent {
         this.context = this.canvas.getContext('2d', { alpha: false });
         this.snake = new Snake(this.context, this.height, this.width, 10);
         this.food = new Food(this.context, this.height, this.width, 10);
+        document.addEventListener('keydown', ($event) => this.move($event));
         window.requestAnimationFrame(this.render.bind(this));
     }
     render() {
-        const diff = Math.floor((Date.now() - this.start) / 1000);
-        if (diff - this.prev > 0) {
-            this.prev = diff;
+        let now = Date.now();
+        const diff = Math.floor((now - this.prev) / 1000);
+        if (diff > 0) {
+            this.prev = now;
             this.fps = 0;
         }
-        if (this.fps % 8 === 0) {
+        if (this.fps % (10 - this.speed()) === 0) {
             this.redraw();
         }
         this.fps++;
@@ -42,7 +43,7 @@ export class AppComponent {
         return this.snake.length();
     }
     speed() {
-        return this.snake.speed();
+        return Math.floor(this.snake.length() / 10);
     }
 }
 //# sourceMappingURL=app.component.js.map

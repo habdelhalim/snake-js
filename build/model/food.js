@@ -1,7 +1,7 @@
 import { Point } from './point.js';
 export class Food extends Point {
-    constructor(ctx, canvasHeight, canvasWidth) {
-        super(0, 0, 10);
+    constructor(ctx, canvasHeight, canvasWidth, nodeSize) {
+        super(0, 0, nodeSize);
         this.ctx = ctx;
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;
@@ -13,8 +13,12 @@ export class Food extends Point {
         this.ctx.fillStyle = previousColor;
     }
     renew() {
-        this.x = Math.floor(Math.random() * (this.canvasWidth - this.size));
-        this.y = Math.floor(Math.random() * (this.canvasHeight - this.size));
+        this.x = this.getRandomBySize(this.canvasWidth);
+        this.y = this.getRandomBySize(this.canvasHeight);
+    }
+    getRandomBySize(max) {
+        let number = Math.floor(Math.random() * max);
+        return number - (number % this.size);
     }
 }
 //# sourceMappingURL=food.js.map

@@ -11,12 +11,12 @@ export class Point {
         return new Point(this.x * num, this.y * num);
     }
     overlapsWith(other) {
-        if (this.x > other.x + other.size ||
-            other.x > this.x + this.size) {
+        if (this.x >= other.x + other.size ||
+            other.x >= this.x + this.size) {
             return false;
         }
-        if (this.y > other.y + other.size
-            || other.y > this.y + this.size) {
+        if (this.y >= other.y + other.size
+            || other.y >= this.y + this.size) {
             return false;
         }
         return true;

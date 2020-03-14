@@ -4,12 +4,14 @@ export class AppComponent {
     constructor() {
         this.title = 'snake';
         this.width = 400;
-        this.height = 200;
+        this.height = 400;
         this.scoreBoard = document.getElementById('score');
         this.canvas = document.getElementById('canvas');
+        this.canvas.height = this.height;
+        this.canvas.width = this.width;
         this.context = this.canvas.getContext('2d');
-        this.snake = new Snake(this.context, this.height, this.width);
-        this.food = new Food(this.context, this.height, this.width);
+        this.snake = new Snake(this.context, this.height, this.width, 10);
+        this.food = new Food(this.context, this.height, this.width, 10);
         window.requestAnimationFrame(this.animate.bind(this));
     }
     animate() {

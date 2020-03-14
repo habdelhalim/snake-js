@@ -1,9 +1,10 @@
 import { Point } from './point.js';
 export class Snake {
-    constructor(ctx, canvasHeight, canvasWidth) {
+    constructor(ctx, canvasHeight, canvasWidth, nodeSize) {
         this.ctx = ctx;
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;
+        this.nodeSize = nodeSize;
         this.translations = {
             ArrowLeft: new Point(-1, 0),
             ArrowRight: new Point(1, 0),
@@ -12,11 +13,10 @@ export class Snake {
         };
         this.stack = [];
         this.body = [];
-        this.currentSpeed = 2;
+        this.currentSpeed = 1;
         this.initialLength = 5;
-        this.nodeSize = 10;
         this.updateSpeedOn = 10;
-        const origin = new Point(this.canvasWidth / 2, this.canvasHeight / 2);
+        const origin = new Point(0, 0);
         const key = 'ArrowRight';
         for (let i = 0; i < this.initialLength; i++) {
             this.body.push(new Point(origin.x, origin.y, this.nodeSize));
@@ -51,7 +51,7 @@ export class Snake {
     moveHead() {
         const head = this.body[0];
         const op = this.stack[0];
-        const translation = this.translations[op].multiply(this.currentSpeed);
+        const translation = this.translations[op].multiply(this.nodeSize);
         this.translate(head, translation);
         head.draw(this.ctx);
     }
@@ -63,7 +63,7 @@ export class Snake {
             node.x = prevNode.x;
             node.y = prevNode.y;
             const op = this.stack[index - 1];
-            const translation = this.translations[op].multiply(-1 * this.currentSpeed);
+            const translation = this.translations[op].multiply(-1 * this.nodeSize);
             this.translate(node, translation);
             node.draw(this.ctx);
             index++;
@@ -83,15 +83,14 @@ export class Snake {
         node.y = this.checkBounds(node.y, 0, this.canvasHeight - this.nodeSize);
     }
     checkBounds(num, min, max) {
+        let result = num;
         if (num <= min) {
-            return min;
+            result = min;
         }
         else if (num >= max) {
-            return max;
+            result = max;
         }
-        else {
-            return num;
-        }
+        return result;
     }
     length() {
         return this.body.length;

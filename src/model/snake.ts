@@ -99,16 +99,13 @@ export class Snake {
     }
 
     private checkBounds(num: number, min: number, max: number) {
-        let result = num;
         if (num < min) {
-            result = min;
             throw new Error('died');
         } else if (num > max) {
-            result = max;
             throw new Error('died');
         }
 
-        return result;
+        return num;
     }
 
     length() {

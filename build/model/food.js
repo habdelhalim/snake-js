@@ -1,7 +1,7 @@
 import { Point } from './point.js';
 export class Food extends Point {
     constructor(ctx, canvasHeight, canvasWidth, nodeSize) {
-        super(0, 0, nodeSize);
+        super(canvasWidth / 2, canvasHeight / 2, nodeSize);
         this.ctx = ctx;
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;

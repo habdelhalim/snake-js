@@ -7,6 +7,13 @@ export class AppComponent {
         this.height = 400;
         this.fps = 0;
         this.prev = Date.now();
+        this.init();
+        document.addEventListener('keydown', ($event) => this.move($event));
+        window.requestAnimationFrame(this.render.bind(this));
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', () => this.init());
+    }
+    init() {
         this.scoreBoard = document.getElementById('score');
         this.canvas = document.getElementById('canvas');
         this.canvas.height = this.height;
@@ -15,8 +22,6 @@ export class AppComponent {
         this.snake = new Snake(this.context, this.height, this.width, 10);
         this.food = new Food(this.context, this.height, this.width, 10);
         this.showScore();
-        document.addEventListener('keydown', ($event) => this.move($event));
-        window.requestAnimationFrame(this.render.bind(this));
     }
     render() {
         let now = Date.now();

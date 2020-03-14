@@ -2,29 +2,30 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
-  <title>Canvas tutorial</title>
-  <base href="/snake-js/">
-  <script type="module">
-    import { AppComponent } from '/snake-js/build/app.component.js';
+    <meta charset="utf-8"/>
+    <title>Canvas tutorial</title>
+    <base href="/snake-js/">
+    <script type="module">
+      import {AppComponent} from '/snake-js/build/app.component.js';
 
-    document.addEventListener('DOMContentLoaded', event => {
-      const app = new AppComponent();
-    });
+      document.addEventListener('DOMContentLoaded', event => {
+        const app = new AppComponent();
+      });
 
-  </script>
-  <style type="text/css">
-    canvas {
-      border: 1px solid black;
-    }
-  </style>
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 
 <body>
-  <h2 id="score"></h2>
-  <canvas id="canvas">
+<button id="reset">new</button>
+<h2 id="score"></h2>
+<canvas id="canvas">
     Your browser doesn't support canvas !!
-  </canvas>
+</canvas>
 </body>
 
 </html>

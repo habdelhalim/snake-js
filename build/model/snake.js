@@ -88,16 +88,13 @@ export class Snake {
         node.y = this.checkBounds(node.y, 0, this.canvasHeight);
     }
     checkBounds(num, min, max) {
-        let result = num;
         if (num < min) {
-            result = min;
             throw new Error('died');
         }
         else if (num > max) {
-            result = max;
             throw new Error('died');
         }
-        return result;
+        return num;
     }
     length() {
         return this.body.length;

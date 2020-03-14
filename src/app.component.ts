@@ -8,13 +8,21 @@ export class AppComponent {
 
     private canvas: HTMLCanvasElement;
     private scoreBoard: HTMLHeadingElement;
-    private readonly context: CanvasRenderingContext2D;
+    private context: CanvasRenderingContext2D;
     private snake: Snake;
-    private readonly food: Food;
+    private food: Food;
     private fps = 0;
     private prev = Date.now();
 
     constructor() {
+        this.init();
+        document.addEventListener('keydown', ($event) => this.move($event));
+        window.requestAnimationFrame(this.render.bind(this));
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', () => this.init());
+    }
+
+    init() {
         this.scoreBoard = <HTMLHeadingElement>document.getElementById('score');
         this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
         this.canvas.height = this.height;
@@ -25,8 +33,6 @@ export class AppComponent {
         this.food = new Food(this.context, this.height, this.width, 10);
 
         this.showScore();
-        document.addEventListener('keydown', ($event) => this.move($event));
-        window.requestAnimationFrame(this.render.bind(this));
     }
 
     render() {

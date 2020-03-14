@@ -14,6 +14,7 @@ export class AppComponent {
         this.context = this.canvas.getContext('2d', { alpha: false });
         this.snake = new Snake(this.context, this.height, this.width, 10);
         this.food = new Food(this.context, this.height, this.width, 10);
+        this.showScore();
         document.addEventListener('keydown', ($event) => this.move($event));
         window.requestAnimationFrame(this.render.bind(this));
     }
@@ -30,13 +31,16 @@ export class AppComponent {
         this.fps++;
         window.requestAnimationFrame(this.render.bind(this));
     }
-    move($event) {
-        this.snake.draw($event.key, this.food);
-    }
     redraw() {
         this.context.clearRect(0, 0, this.width, this.height);
         this.food.draw();
         this.snake.draw(null, this.food);
+    }
+    move($event) {
+        this.snake.draw($event.key, this.food);
+        this.showScore();
+    }
+    showScore() {
         this.scoreBoard.innerText = "Score: " + this.score().toString() + ", Speed: " + this.speed().toString();
     }
     score() {

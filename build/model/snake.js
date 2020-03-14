@@ -14,7 +14,8 @@ export class Snake {
         this.stack = [];
         this.body = [];
         this.initialLength = 5;
-        const origin = new Point(0, 0);
+        this.dead = false;
+        const origin = new Point(canvasWidth / 2, canvasHeight / 2);
         const key = 'ArrowRight';
         for (let i = 0; i < this.initialLength; i++) {
             this.body.push(new Point(origin.x, origin.y, this.nodeSize));
@@ -22,14 +23,26 @@ export class Snake {
         }
     }
     draw(key, food) {
+        if (this.dead) {
+            this.ctx.font = '30px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight / 2);
+            return;
+        }
         if (!this.translations[key]) {
             key = this.stack[0];
         }
-        this.addOperation(key);
-        this.moveSnake();
-        if (this.body[0].overlapsWith(food)) {
-            this.addNode();
-            food.renew();
+        try {
+            this.addOperation(key);
+            this.moveSnake();
+            if (this.body[0].overlapsWith(food)) {
+                this.addNode();
+                food.renew();
+            }
+        }
+        catch (error) {
+            this.dead = true;
+            console.log('died at ', this.body[0]);
         }
     }
     addOperation(key) {
@@ -71,16 +84,18 @@ export class Snake {
     translate(node, translation) {
         node.x += translation.x;
         node.y += translation.y;
-        node.x = this.checkBounds(node.x, 0, this.canvasWidth - this.nodeSize);
-        node.y = this.checkBounds(node.y, 0, this.canvasHeight - this.nodeSize);
+        node.x = this.checkBounds(node.x, 0, this.canvasWidth);
+        node.y = this.checkBounds(node.y, 0, this.canvasHeight);
     }
     checkBounds(num, min, max) {
         let result = num;
-        if (num <= min) {
+        if (num < min) {
             result = min;
+            throw new Error('died');
         }
-        else if (num >= max) {
+        else if (num > max) {
             result = max;
+            throw new Error('died');
         }
         return result;
     }

@@ -12,9 +12,10 @@ export class Snake {
     private stack: string[] = [];
     private body: Point[] = [];
     private initialLength = 5;
+    private dead = false;
 
     constructor(private ctx: CanvasRenderingContext2D, private canvasHeight: number, private canvasWidth: number, private nodeSize) {
-        const origin = new Point(0, 0);
+        const origin = new Point(canvasWidth / 2, canvasHeight / 2);
         const key = 'ArrowRight';
 
         for (let i = 0; i < this.initialLength; i++) {
@@ -24,16 +25,27 @@ export class Snake {
     }
 
     draw(key: string, food: Food) {
+        if(this.dead) {
+            this.ctx.font = '30px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight / 2);
+            return;
+        }
+
         if (!this.translations[key]) {
             key = this.stack[0];
         }
 
-        this.addOperation(key);
-        this.moveSnake();
-
-        if (this.body[0].overlapsWith(food)) {
-            this.addNode();
-            food.renew();
+        try {
+            this.addOperation(key);
+            this.moveSnake();
+            if (this.body[0].overlapsWith(food)) {
+                this.addNode();
+                food.renew();
+            }
+        } catch(error) {
+            this.dead = true;
+            console.log('died at ', this.body[0]);
         }
     }
 
@@ -82,16 +94,18 @@ export class Snake {
     private translate(node: Point, translation: Point) {
         node.x += translation.x;
         node.y += translation.y;
-        node.x = this.checkBounds(node.x, 0, this.canvasWidth - this.nodeSize);
-        node.y = this.checkBounds(node.y, 0, this.canvasHeight - this.nodeSize);
+        node.x = this.checkBounds(node.x, 0, this.canvasWidth);
+        node.y = this.checkBounds(node.y, 0, this.canvasHeight);
     }
 
     private checkBounds(num: number, min: number, max: number) {
         let result = num;
-        if (num <= min) {
+        if (num < min) {
             result = min;
-        } else if (num >= max) {
+            throw new Error('died');
+        } else if (num > max) {
             result = max;
+            throw new Error('died');
         }
 
         return result;

@@ -8,9 +8,12 @@ export class AppComponent {
 
     private canvas: HTMLCanvasElement;
     private scoreBoard: HTMLHeadingElement;
-    private context: CanvasRenderingContext2D;
+    private readonly context: CanvasRenderingContext2D;
     private snake: Snake;
-    private food: Food;
+    private readonly food: Food;
+    private start = Date.now();
+    private fps = 0;
+    private prev = 0;
 
     constructor() {
         this.scoreBoard = <HTMLHeadingElement>document.getElementById('score');
@@ -18,16 +21,26 @@ export class AppComponent {
         this.canvas.height = this.height;
         this.canvas.width = this.width;
 
-        this.context = this.canvas.getContext('2d');
+        this.context = this.canvas.getContext('2d', {alpha: false});
         this.snake = new Snake(this.context, this.height, this.width, 10);
         this.food = new Food(this.context, this.height, this.width, 10);
 
-        window.requestAnimationFrame(this.animate.bind(this));
+        window.requestAnimationFrame(this.render.bind(this));
     }
 
-    animate() {
-        this.redraw();
-        window.requestAnimationFrame(this.animate.bind(this));
+    render() {
+        const diff = Math.floor((Date.now() - this.start) / 1000);
+        if (diff - this.prev > 0) {
+            this.prev = diff;
+            this.fps = 0;
+        }
+
+        if (this.fps % 8 === 0) {
+            this.redraw();
+        }
+
+        this.fps++;
+        window.requestAnimationFrame(this.render.bind(this));
     }
 
     move($event) {

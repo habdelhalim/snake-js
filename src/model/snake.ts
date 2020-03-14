@@ -25,7 +25,7 @@ export class Snake {
     }
 
     draw(key: string, food: Food) {
-        if(this.dead) {
+        if (this.dead) {
             this.ctx.font = '30px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight / 2);
@@ -43,7 +43,7 @@ export class Snake {
                 this.addNode();
                 food.renew();
             }
-        } catch(error) {
+        } catch (error) {
             this.dead = true;
             console.log('died at ', this.body[0]);
         }
